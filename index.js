@@ -1,7 +1,7 @@
 'use strict';
 const rollup = require('rollup');
 const buble = require('rollup-plugin-buble');
-const memory = require('rollup-plugin-memory');
+const virtual = require('rollup-plugin-virtual');
 
 class RollupCompiler {
   constructor(config) {
@@ -17,11 +17,11 @@ class RollupCompiler {
     const path = params.path;
     const data = params.data;
     const plugins = this.plugins.slice();
-    plugins.push(memory({
-      contents: data
+    plugins.push(virtual({
+      [path]: data
     }));
     return rollup.rollup({
-      entry: path,
+      input: path,
       plugins: plugins
     }).then((bundle) => {
       const compiled = bundle.generate({
