@@ -46,7 +46,7 @@ class RollupCompiler {
 
       return {
         data: code,
-        map: compiled.map.toString()
+        map: compiled.map ? compiled.map.toString() : null
       };
     });
   }
