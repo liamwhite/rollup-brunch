@@ -21,23 +21,29 @@ class RollupCompiler {
     const path = params.path;
     const data = params.data;
     const plugins = this.plugins.slice();
+
     plugins.push(virtual({
       [path]: data
     }));
+
     return rollup.rollup({
       input: path,
       plugins: plugins
-    }).then((bundle) => {
-      const compiled = bundle.generate({
-        format: 'iife',
-        sourceMap: this.map
-      });
-      var code;
+    })
+    .then(bundle => bundle.generate({
+      format: 'iife',
+      sourceMap: this.map
+    })
+    .then(output => {
+      const compiled = output[0];
+      let code;
+
       if (this.map === 'linked') {
         code = compiled.code.replace('//# sourceMappingURL=undefined.map\n', '');
       } else {
         code = compiled.code;
       }
+
       return {
         data: code,
         map: compiled.map.toString()
