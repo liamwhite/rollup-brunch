@@ -1,6 +1,6 @@
 'use strict';
 const rollup = require('rollup');
-const babel = require('rollup-plugin-babel');
+const buble = require('rollup-plugin-buble');
 const memory = require('rollup-plugin-memory');
 
 class RollupCompiler {
@@ -8,7 +8,7 @@ class RollupCompiler {
     if (config == null) config = {};
     const pluginConfig = config.plugins && config.plugins.rollup || {};
     this.plugins = [
-      babel(pluginConfig.babel || config.babel || {})
+      buble(pluginConfig.buble || config.buble || {})
     ];
     this.map = !!config.sourceMaps ? 'linked' : 'none';
   }
@@ -25,7 +25,7 @@ class RollupCompiler {
       plugins: plugins
     }).then((bundle) => {
       const compiled = bundle.generate({
-        format: 'umd',
+        format: 'iife',
         sourceMap: this.map
       });
       var code;
