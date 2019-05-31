@@ -2,12 +2,16 @@
 const rollup = require('rollup');
 const buble = require('rollup-plugin-buble');
 const virtual = require('rollup-plugin-virtual');
+const includePaths = require('rollup-plugin-includepaths');
+const multiEntry = require('rollup-plugin-multi-entry');
 
 class RollupCompiler {
   constructor(config) {
     if (config == null) config = {};
     const pluginConfig = config.plugins && config.plugins.rollup || {};
     this.plugins = [
+      multiEntry(pluginConfig.multiEntry || config.multiEntry || {}),
+      includePaths(pluginConfig.includePaths || config.includePaths || {}),
       buble(pluginConfig.buble || config.buble || {})
     ];
     this.map = !!config.sourceMaps ? 'linked' : 'none';
