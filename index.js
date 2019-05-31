@@ -14,7 +14,7 @@ class RollupCompiler {
       includePaths(pluginConfig.includePaths || config.includePaths || {}),
       buble(pluginConfig.buble || config.buble || {})
     ];
-    this.map = !!config.sourceMaps ? 'linked' : 'none';
+    this.map = !!config.sourceMaps;
   }
 
   compile(params) {
@@ -32,9 +32,9 @@ class RollupCompiler {
     })
     .then(bundle => bundle.generate({
       format: 'iife',
-      sourceMap: this.map
+      sourcemap: this.map
     }))
-    .then(output => {
+    .then(({ output }) => {
       const compiled = output[0];
       let code;
 
