@@ -33,7 +33,7 @@ class RollupCompiler {
     .then(bundle => bundle.generate({
       format: 'iife',
       sourceMap: this.map
-    })
+    }))
     .then(output => {
       const compiled = output[0];
       let code;
